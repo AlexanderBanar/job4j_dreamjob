@@ -1,3 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="ru.job4j.dream.Store" %>
+<%@ page import="ru.job4j.dream.Post" %>
+<%@ page import="java.util.List" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,35 +22,29 @@
     <title>Работа мечты!</title>
 </head>
 <body>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-    </tr>
-    <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-    </tr>
-    <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Created date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% List<Post> list = (List<Post>) Store.instOf().findAll(); %>
+            <% for (int i = 1;i < list.size();i++) { %>
+            <tr>
+                <th scope="row"><%= i%>;%></th>
+                <td><%= list.get(i).getName()%></td>
+                <td><%= list.get(i).getDescription()%></td>
+                <td><%= list.get(i).getCreated()%></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
