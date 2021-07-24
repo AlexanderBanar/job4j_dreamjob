@@ -33,13 +33,11 @@
             </tr>
             </thead>
             <tbody>
-            <% List<Post> list = (List<Post>) Store.instOf().findAll(); %>
-            <% for (int i = 1;i < list.size();i++) { %>
+            <% for (Post post : Store.instOf().findAll()) { %>
             <tr>
-                <th scope="row"><%= i%>;%></th>
-                <td><%= list.get(i).getName()%></td>
-                <td><%= list.get(i).getDescription()%></td>
-                <td><%= list.get(i).getCreated()%></td>
+                <td><%= post.getName() %></td>
+                <td><%= post.getDescription() %></td>
+                <td><%= post.getCreated() %></td>
             </tr>
             <% } %>
             </tbody>
