@@ -1,12 +1,18 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: s5956
+  Date: 26.07.2021
+  Time: 7:04
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.dream.Store" %>
-<%@ page import="ru.job4j.dream.Post" %>
-<%@ page import="java.util.List" %>
+<%@ page import="ru.job4j.dream.Candidate" %>
 <!doctype html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
-    <%@page contentType="text/html; charset=UTF-8" %>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
@@ -19,29 +25,33 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Работа мечты!</title>
+    <title>Работа мечты</title>
 </head>
 <body>
-<div class="container">
+<div class="container pt-3">
+
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Created date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% for (Post post : Store.instOf().findAllPosts()) { %>
-            <tr>
-                <td><%= post.getName() %></td>
-                <td><%= post.getDescription() %></td>
-                <td><%= post.getCreated() %></td>
-            </tr>
-            <% } %>
-            </tbody>
-        </table>
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Кандидаты
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Названия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for (Candidate can : Store.instOf().findAllCandidates()) { %>
+                    <tr>
+                        <td><%= can.getName() %></td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 </body>
