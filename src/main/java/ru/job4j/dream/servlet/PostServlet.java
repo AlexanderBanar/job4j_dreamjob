@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PostServlet extends HttpServlet {
-    private static AtomicInteger postId = new AtomicInteger(4);
+    private static final AtomicInteger POST_ID = new AtomicInteger(4);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -21,7 +21,7 @@ public class PostServlet extends HttpServlet {
     }
 
     private void save(Post post) {
-        post.setId(postId.incrementAndGet());
+        post.setId(POST_ID.incrementAndGet());
         Store.instOf().put(post);
     }
 }

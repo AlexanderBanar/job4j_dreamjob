@@ -38,4 +38,8 @@ public class Store {
     public void put(Post post) {
         posts.put(post.getId(), post);
     }
+
+    public void put(Candidate candidate) {
+        candidates.put(candidate.getId(), candidate);
+    }
 }
