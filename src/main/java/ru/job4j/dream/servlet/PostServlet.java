@@ -16,12 +16,15 @@ public class PostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        save(new Post(0, req.getParameter("name"), "empty description", LocalDate.now()));
+        save(new Post(Integer.parseInt(req.getParameter("id")), req.getParameter("name"),
+                "empty description", LocalDate.now()));
         resp.sendRedirect(req.getContextPath() + "/posts.jsp");
     }
 
     private void save(Post post) {
-        post.setId(POST_ID.incrementAndGet());
+        if (post.getId() == 0) {
+            post.setId(POST_ID.incrementAndGet());
+        }
         Store.instOf().put(post);
     }
 }

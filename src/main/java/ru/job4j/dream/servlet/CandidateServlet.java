@@ -15,12 +15,14 @@ public class CandidateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        save(new Candidate(0, req.getParameter("name")));
+        save(new Candidate(Integer.parseInt(req.getParameter("id")), req.getParameter("name")));
         resp.sendRedirect(req.getContextPath() + "/candidate/candidates.jsp");
     }
 
     private void save(Candidate candidate) {
-        candidate.setId(POST_ID.incrementAndGet());
+        if (candidate.getId() == 0) {
+            candidate.setId(POST_ID.incrementAndGet());
+        }
         Store.instOf().put(candidate);
     }
 }

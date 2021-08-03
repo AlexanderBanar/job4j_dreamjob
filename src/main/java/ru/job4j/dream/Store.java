@@ -42,4 +42,12 @@ public class Store {
     public void put(Candidate candidate) {
         candidates.put(candidate.getId(), candidate);
     }
+
+    public Post findPostById(int id) {
+        return posts.get(id);
+    }
+
+    public Candidate findCanById(int id) {
+        return candidates.get(id);
+    }
 }
