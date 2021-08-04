@@ -5,11 +5,14 @@ import java.time.Month;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Store {
     private static final Store INST = new Store();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
+    private static final AtomicInteger POST_ID = new AtomicInteger(4);
+    private static final AtomicInteger CAN_ID = new AtomicInteger(6);
 
     private Store() {
         posts.put(1, new Post(1, "Junior Java Job", "knows Java core",
@@ -35,11 +38,17 @@ public class Store {
         return candidates.values();
     }
 
-    public void put(Post post) {
+    public void save(Post post) {
+        if (post.getId() == 0) {
+            post.setId(POST_ID.incrementAndGet());
+        }
         posts.put(post.getId(), post);
     }
 
-    public void put(Candidate candidate) {
+    public void save(Candidate candidate) {
+        if (candidate.getId() == 0) {
+            candidate.setId(CAN_ID.incrementAndGet());
+        }
         candidates.put(candidate.getId(), candidate);
     }
 
