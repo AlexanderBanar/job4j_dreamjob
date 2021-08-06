@@ -15,4 +15,6 @@ public class CandidateServlet extends HttpServlet {
         Store.instOf().save(new Candidate(Integer.parseInt(req.getParameter("id")), req.getParameter("name")));
         resp.sendRedirect(req.getContextPath() + "/candidate/candidates.jsp");
     }
+
+
 }
