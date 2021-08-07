@@ -22,4 +22,6 @@ public class CandidateServlet extends HttpServlet {
         req.setAttribute("candidates", Store.instOf().findAllCandidates());
         req.getRequestDispatcher("candidates.jsp").forward(req, resp);
     }
+
+
 }
