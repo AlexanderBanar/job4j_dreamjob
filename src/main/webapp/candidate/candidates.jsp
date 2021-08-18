@@ -1,4 +1,6 @@
-<%--
+<%@ page import="java.io.File" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %><%--
   Created by IntelliJ IDEA.
   User: s5956
   Date: 26.07.2021
@@ -26,6 +28,7 @@
     <title>Работа мечты</title>
 </head>
 <body>
+
 <div class="container pt-3">
 
     <div class="row">
@@ -48,6 +51,8 @@
                                 <i class="fa fa-edit mr-3"></i>
                             </a>
                             <c:out value="${can.name}"/>
+                            <img src="<c:url value='/download?name=${can.id}'/>" width="100px" height="100px"/>
+                            <a href='<c:url value="/uploadPhoto.jsp?id=${can.id}"/>'>Добавить фото</a>
                         </td>
                     </tr>
                     </c:forEach>

@@ -21,7 +21,7 @@ public class UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<String> images = new ArrayList<>();
-        for (File name : new File("d:\\images\\").listFiles()) {
+        for (File name : new File("e:\\images\\").listFiles()) {
             images.add(name.getName());
         }
         req.setAttribute("images", images);
@@ -38,13 +38,16 @@ public class UploadServlet extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File("d:\\images\\");
+            File folder = new File("e:\\images\\");
             if (!folder.exists()) {
                 folder.mkdir();
             }
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                     File file = new File(folder + File.separator + item.getName());
+                    if (req.getParameter("id") != null) {
+                        file.renameTo(new File(req.getParameter("id")));
+                    }
                     try (FileOutputStream out = new FileOutputStream(file)) {
                         out.write(item.getInputStream().readAllBytes());
                     }
