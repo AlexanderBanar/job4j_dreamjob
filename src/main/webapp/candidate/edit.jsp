@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.dream.Store" %>
+<%@ page import="ru.job4j.dream.MemStore" %>
 <%@ page import="ru.job4j.dream.Post" %>
 <%@ page import="ru.job4j.dream.Candidate" %>
 <!doctype html>
@@ -26,7 +26,7 @@
     String id = request.getParameter("id");
     Candidate candidate = new Candidate(0, "");
     if (id != null) {
-        candidate = Store.instOf().findCanById(Integer.parseInt(id));
+        candidate = MemStore.instOf().findCanById(Integer.parseInt(id));
     }
 %>
 <div class="container pt-3">
