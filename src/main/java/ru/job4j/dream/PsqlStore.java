@@ -81,15 +81,15 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public void save(Post post) {
+    public void savePost(Post post) {
         if (post.getId() == 0) {
-            create(post);
+            createPost(post);
         } else {
-            update(post);
+            updatePost(post);
         }
     }
 
-    private Post create(Post post) {
+    private Post createPost(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      "INSERT INTO post(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
@@ -107,7 +107,7 @@ public class PsqlStore implements Store {
         return post;
     }
 
-    private void update(Post post) {
+    private void updatePost(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      "UPDATE post SET name = (?) WHERE id = (?)")
@@ -121,7 +121,7 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public Post findById(int id) {
+    public Post findPostById(int id) {
         Post post = new Post(id, "");
         try (Connection cn = pool.getConnection();
             PreparedStatement ps = cn.prepareStatement(
@@ -138,5 +138,65 @@ public class PsqlStore implements Store {
             e.printStackTrace();
         }
         return post;
+    }
+
+    @Override
+    public void saveCan(Candidate candidate) {
+        if (candidate.getId() == 0) {
+            createCan(candidate);
+        } else {
+            updateCan(candidate);
+        }
+    }
+
+    private Candidate createCan(Candidate candidate) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "INSERT INTO candidate(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, candidate.getName());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    candidate.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return candidate;
+    }
+
+    private void updateCan(Candidate candidate) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "UPDATE candidate SET name = (?) WHERE id = (?)")
+        ) {
+            ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getId());
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Candidate findCanById(int id) {
+        Candidate candidate = new Candidate(id, "");
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM candidate WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
+             )) {
+            ps.setInt(1, id);
+            ps.execute();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    candidate.setName(rs.getString(2));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return candidate;
     }
 }

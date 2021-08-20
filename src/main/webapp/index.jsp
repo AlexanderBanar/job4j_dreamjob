@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.dream.MemStore" %>
+<%@ page import="ru.job4j.dream.PsqlStore" %>
 <%@ page import="ru.job4j.dream.Post" %>
 <!doctype html>
 <html lang="en">
