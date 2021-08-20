@@ -51,7 +51,8 @@
                                 <i class="fa fa-edit mr-3"></i>
                             </a>
                             <c:out value="${can.name}"/>
-                            <img src="<c:url value='/download?name=${can.id}'/>" width="100px" height="100px"/>
+                            <img src="<c:url value='/download?name=${can.id}'/>.JPG" width="100px" height="100px"
+                                 alt="Фото отсутствует"/>
                             <a href='<c:url value="/uploadPhoto.jsp?id=${can.id}"/>'>Добавить фото</a>
                         </td>
                     </tr>
