@@ -1,6 +1,7 @@
 package ru.job4j.dream;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,6 +15,7 @@ import java.util.Properties;
 
 public class PsqlStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();
+    private static final Logger LOG = Logger.getLogger(PsqlStore.class);
 
     private PsqlStore() {
         Properties cfg = new Properties();
@@ -22,12 +24,12 @@ public class PsqlStore implements Store {
         )) {
             cfg.load(io);
         } catch (Exception e) {
-            throw new IllegalStateException(e);
+            LOG.error("DB properties are not properly configured or loaded", e);
         }
         try {
             Class.forName(cfg.getProperty("jdbc.driver"));
         } catch (Exception e) {
-            throw new IllegalStateException(e);
+            LOG.error("Class.forName did not get jdbc driver", e);
         }
         pool.setDriverClassName(cfg.getProperty("jdbc.driver"));
         pool.setUrl(cfg.getProperty("jdbc.url"));
@@ -36,6 +38,7 @@ public class PsqlStore implements Store {
         pool.setMinIdle(5);
         pool.setMaxIdle(10);
         pool.setMaxOpenPreparedStatements(100);
+        LOG.info("PsqlStore was initialized");
     }
 
     private static final class Lazy {
@@ -58,7 +61,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("check db connection", e);
         }
         return posts;
     }
@@ -75,7 +78,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("check db connection", e);
         }
         return candidates;
     }
@@ -102,7 +105,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("check db connection", e);
         }
         return post;
     }
@@ -116,13 +119,13 @@ public class PsqlStore implements Store {
             ps.setInt(2, post.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("check db connection", e);
         }
     }
 
     @Override
     public Post findPostById(int id) {
-        Post post = new Post(id, "");
+        String name = "";
         try (Connection cn = pool.getConnection();
             PreparedStatement ps = cn.prepareStatement(
                     "SELECT * FROM post WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
@@ -131,13 +134,13 @@ public class PsqlStore implements Store {
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    post.setName(rs.getString(2));
+                    name = rs.getString(2);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("check db connection", e);
         }
-        return post;
+        return new Post(id, name);
     }
 
     @Override
@@ -162,7 +165,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("check db connection", e);
         }
         return candidate;
     }
@@ -176,13 +179,13 @@ public class PsqlStore implements Store {
             ps.setInt(2, candidate.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("check db connection", e);
         }
     }
 
     @Override
     public Candidate findCanById(int id) {
-        Candidate candidate = new Candidate(id, "");
+        String name = "";
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
                      "SELECT * FROM candidate WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
@@ -191,12 +194,12 @@ public class PsqlStore implements Store {
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    candidate.setName(rs.getString(2));
+                    name = rs.getString(2);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("check db connection", e);
         }
-        return candidate;
+        return new Candidate(id, name);
     }
 }
