@@ -125,7 +125,7 @@ public class PsqlStore implements Store {
 
     @Override
     public Post findPostById(int id) {
-        String name = "";
+        Post searchedPost = null;
         try (Connection cn = pool.getConnection();
             PreparedStatement ps = cn.prepareStatement(
                     "SELECT * FROM post WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
@@ -134,13 +134,13 @@ public class PsqlStore implements Store {
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    name = rs.getString(2);
+                    searchedPost = new Post(id, rs.getString(2));
                 }
             }
         } catch (Exception e) {
             LOG.error("check db connection", e);
         }
-        return new Post(id, name);
+        return searchedPost;
     }
 
     @Override
@@ -185,7 +185,7 @@ public class PsqlStore implements Store {
 
     @Override
     public Candidate findCanById(int id) {
-        String name = "";
+        Candidate searchedCandidate = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
                      "SELECT * FROM candidate WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
@@ -194,12 +194,12 @@ public class PsqlStore implements Store {
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    name = rs.getString(2);
+                    searchedCandidate = new Candidate(id, rs.getString(2));
                 }
             }
         } catch (Exception e) {
             LOG.error("check db connection", e);
         }
-        return new Candidate(id, name);
+        return searchedCandidate;
     }
 }
