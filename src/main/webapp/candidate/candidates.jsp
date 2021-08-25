@@ -1,12 +1,3 @@
-<%@ page import="java.io.File" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %><%--
-  Created by IntelliJ IDEA.
-  User: s5956
-  Date: 26.07.2021
-  Time: 7:04
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
@@ -28,6 +19,12 @@
     <title>Работа мечты</title>
 </head>
 <body>
+
+<% if (request.getSession().getAttribute("user") == null) { %>
+<a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Войти</a>
+<% } else { %>
+<a class="nav-link" href="<%=request.getContextPath()%>/logout.do"> <c:out value="${user.name}"/> | Выйти</a>
+<% } %>
 
 <div class="container pt-3">
 

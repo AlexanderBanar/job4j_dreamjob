@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.dream.PsqlStore" %>
-<%@ page import="ru.job4j.dream.Post" %>
 <%@ page import="ru.job4j.dream.Candidate" %>
 <%@ page import="ru.job4j.dream.PsqlStore" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,6 +30,11 @@
         candidate = PsqlStore.instOf().findCanById(Integer.parseInt(id));
     }
 %>
+<% if (request.getSession().getAttribute("user") == null) { %>
+<a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Войти</a>
+<% } else { %>
+<a class="nav-link" href="<%=request.getContextPath()%>/logout.do"> <c:out value="${user.name}"/> | Выйти</a>
+<% } %>
 <div class="container pt-3">
     <div class="row">
         <div class="card" style="width: 100%">

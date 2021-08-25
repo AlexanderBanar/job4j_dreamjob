@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.dream.PsqlStore" %>
-<%@ page import="ru.job4j.dream.Post" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -37,7 +36,11 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
             </li>
             <li class="nav-item">
+                <% if (request.getSession().getAttribute("user") == null) { %>
                 <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Войти</a>
+                <% } else { %>
+                <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"> <c:out value="${user.name}"/> | Выйти</a>
+                <% } %>
             </li>
         </ul>
     </div>

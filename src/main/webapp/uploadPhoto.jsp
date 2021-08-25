@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" session="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +11,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<% if (request.getSession().getAttribute("user") == null) { %>
+<a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Войти</a>
+<% } else { %>
+<a class="nav-link" href="<%=request.getContextPath()%>/logout.do"> <c:out value="${user.name}"/> | Выйти</a>
+<% } %>
 
 <div class="container">
     <h2>Upload image</h2>
