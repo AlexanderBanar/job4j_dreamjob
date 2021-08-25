@@ -39,14 +39,6 @@
         <url-pattern>/download</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>UploadServlet</servlet-name>
-        <servlet-class>ru.job4j.dream.servlet.UploadServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UploadServlet</servlet-name>
-        <url-pattern>/upload</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>UploadPhotoServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.UploadPhotoServlet</servlet-class>
     </servlet>

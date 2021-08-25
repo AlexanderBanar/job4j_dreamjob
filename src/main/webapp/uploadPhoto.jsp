@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="UTF-8" session="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +13,8 @@
 
 <div class="container">
     <h2>Upload image</h2>
-    <form action="<c:url value='/uploadPhoto'/>" method="post" enctype="multipart/form-data"
-          id="<%=request.getParameter("id")%>">
+    <form action="<%=request.getContextPath()%>/uploadPhoto?id=<%=request.getParameter("id")%>"
+          method="post" enctype="multipart/form-data">
         <div class="checkbox">
             <input type="file" name="file">
         </div>

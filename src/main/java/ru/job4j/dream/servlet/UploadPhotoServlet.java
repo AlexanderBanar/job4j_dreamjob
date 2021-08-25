@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -19,14 +18,7 @@ import java.util.List;
 public class UploadPhotoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String photoId = req.getParameter("id");
-        resp.setContentType("id=" + photoId);
-        resp.setContentType("image/jpg");
-        resp.setHeader("Content-Disposition", "attachment; filename=\"" + photoId + "\"");
-        File file = new File("images" + File.separator + photoId + ".JPG");
-        try (FileInputStream in = new FileInputStream(file)) {
-            resp.getOutputStream().write(in.readAllBytes());
-        }
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 
     @Override
@@ -38,16 +30,13 @@ public class UploadPhotoServlet extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File("e:\\images\\");
+            File folder = new File("e:\\images");
             if (!folder.exists()) {
                 folder.mkdir();
             }
             for (FileItem item : items) {
                 if (!item.isFormField()) {
-                    File file = new File(folder + File.separator + item.getName());
-                    if (req.getParameter("id") != null) {
-                        file.renameTo(new File(req.getParameter("id")));
-                    }
+                    File file = new File(folder + File.separator + req.getParameter("id") + ".JPG");
                     try (FileOutputStream out = new FileOutputStream(file)) {
                         out.write(item.getInputStream().readAllBytes());
                     }
