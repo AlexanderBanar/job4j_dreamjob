@@ -14,4 +14,8 @@ public interface Store {
     Post findPostById(int id);
 
     Candidate findCanById(int id);
+
+    // void saveUser(User user);
+
+    // User findByEmail(String email);
 }
