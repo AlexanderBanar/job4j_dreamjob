@@ -15,7 +15,7 @@ public interface Store {
 
     Candidate findCanById(int id);
 
-    // void saveUser(User user);
+    void saveUser(User user);
 
-    // User findByEmail(String email);
+    User findByEmail(String email);
 }

@@ -202,4 +202,40 @@ public class PsqlStore implements Store {
         }
         return searchedCandidate;
     }
+
+    @Override
+    public void saveUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "INSERT INTO user_pool (email, password) VALUES (?, ?)")
+        ) {
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getPassword());
+            ps.execute();
+        } catch (Exception e) {
+            LOG.error("check db connection", e);
+        }
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        User searchedUser = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM user_pool WHERE email = (?)", PreparedStatement.RETURN_GENERATED_KEYS
+             )) {
+            ps.setString(1, email);
+            ps.execute();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    searchedUser = new User();
+                    searchedUser.setEmail(email);
+                    searchedUser.setPassword(rs.getString(2));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("check db connection", e);
+        }
+        return searchedUser;
+    }
 }

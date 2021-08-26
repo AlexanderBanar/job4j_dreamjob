@@ -9,5 +9,6 @@ public class PsqlMain {
         for (Candidate candidate : store.findAllCandidates()) {
             System.out.println(candidate.getId() + " " + candidate.getName());
         }
+        System.out.println(store.findByEmail("test@mail.ru").getPassword());
     }
 }
