@@ -1,5 +1,7 @@
 package ru.job4j.dream.servlet;
 
+import ru.job4j.dream.PsqlStore;
+import ru.job4j.dream.Store;
 import ru.job4j.dream.User;
 
 import javax.servlet.ServletException;
@@ -14,12 +16,13 @@ public class AuthServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        if ("s595659@mail.ru".equals(email) && "password".equals(password)) {
+        Store store = PsqlStore.instOf();
+        if (store.findByEmail(email).getPassword().equals(password)) {
             HttpSession sc = req.getSession();
-            User admin = new User();
-            admin.setName("Admin");
-            admin.setEmail(email);
-            sc.setAttribute("user", admin);
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            sc.setAttribute("user", user);
             resp.sendRedirect(req.getContextPath() + "/posts.do");
         } else {
             req.setAttribute("error", "Не верный email или пароль");
