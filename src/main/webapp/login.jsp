@@ -1,3 +1,4 @@
+<%@ page import="ru.job4j.dream.User" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
@@ -48,6 +49,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<%=request.getContextPath()%>/reg.jsp">Регистрация</a>
                 </li>
+                <% if (request.getAttribute("registration") != null) { %>
+                Регистрация не прошла. Пользователь с данным email уже зарегистрирован.
+                <% } %>
             </div>
         </div>
     </div>

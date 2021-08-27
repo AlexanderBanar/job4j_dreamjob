@@ -13,9 +13,13 @@ public class RegServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         User user = new User();
-        user.setEmail(req.getParameter("email"));
-        user.setPassword(req.getParameter("password"));
-        PsqlStore.instOf().saveUser(user);
+        if (PsqlStore.instOf().findByEmail(req.getParameter("email")) != null) {
+            req.setAttribute("registration", user);
+        } else {
+            user.setEmail(req.getParameter("email"));
+            user.setPassword(req.getParameter("password"));
+            PsqlStore.instOf().saveUser(user);
+        }
         resp.sendRedirect(req.getContextPath() + "/auth.do");
     }
 }
