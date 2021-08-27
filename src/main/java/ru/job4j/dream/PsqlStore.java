@@ -53,7 +53,7 @@ public class PsqlStore implements Store {
     public Collection<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post")
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM dreamjob.public.post")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -70,7 +70,7 @@ public class PsqlStore implements Store {
     public Collection<Candidate> findAllCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-                PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate")
+                PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob.public.candidate")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -95,7 +95,7 @@ public class PsqlStore implements Store {
     private Post createPost(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO post(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+                     "INSERT INTO dreamjob.public.post(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
             ps.execute();
@@ -113,7 +113,7 @@ public class PsqlStore implements Store {
     private void updatePost(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "UPDATE post SET name = (?) WHERE id = (?)")
+                     "UPDATE dreamjob.public.post SET name = (?) WHERE id = (?)")
         ) {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
@@ -128,7 +128,7 @@ public class PsqlStore implements Store {
         Post searchedPost = null;
         try (Connection cn = pool.getConnection();
             PreparedStatement ps = cn.prepareStatement(
-                    "SELECT * FROM post WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
+                    "SELECT * FROM dreamjob.public.post WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
             )) {
             ps.setInt(1, id);
             ps.execute();
@@ -155,7 +155,7 @@ public class PsqlStore implements Store {
     private Candidate createCan(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO candidate(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+                     "INSERT INTO dreamjob.public.candidate(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
             ps.execute();
@@ -173,7 +173,7 @@ public class PsqlStore implements Store {
     private void updateCan(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "UPDATE candidate SET name = (?) WHERE id = (?)")
+                     "UPDATE dreamjob.public.candidate SET name = (?) WHERE id = (?)")
         ) {
             ps.setString(1, candidate.getName());
             ps.setInt(2, candidate.getId());
@@ -188,7 +188,7 @@ public class PsqlStore implements Store {
         Candidate searchedCandidate = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "SELECT * FROM candidate WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
+                     "SELECT * FROM dreamjob.public.candidate WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
              )) {
             ps.setInt(1, id);
             ps.execute();
@@ -207,7 +207,7 @@ public class PsqlStore implements Store {
     public void saveUser(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO user_pool (email, password) VALUES (?, ?)")
+                     "INSERT INTO dreamjob.public.user_pool (email, password) VALUES (?, ?)")
         ) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
@@ -222,7 +222,7 @@ public class PsqlStore implements Store {
         User searchedUser = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "SELECT * FROM user_pool")) {
+                     "SELECT * FROM dreamjob.public.user_pool")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     if (rs.getString(1).equals(email)) {
