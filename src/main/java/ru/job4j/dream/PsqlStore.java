@@ -222,14 +222,13 @@ public class PsqlStore implements Store {
         User searchedUser = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "SELECT * FROM dreamjob.public.user_pool")) {
+                     "SELECT * FROM dreamjob.public.user_pool WHERE email = (?)")) {
+            ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    if (rs.getString(1).equals(email)) {
-                        searchedUser = new User();
-                        searchedUser.setEmail(email);
-                        searchedUser.setPassword(rs.getString(2));
-                    }
+                if (rs.next() && rs.getString(1).equals(email)) {
+                    searchedUser = new User();
+                    searchedUser.setEmail(email);
+                    searchedUser.setPassword(rs.getString(2));
                 }
             }
         } catch (Exception e) {
