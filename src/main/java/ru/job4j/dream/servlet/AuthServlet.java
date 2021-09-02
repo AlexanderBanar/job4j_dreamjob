@@ -16,13 +16,12 @@ import java.io.PrintWriter;
 public class AuthServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Store store = PsqlStore.instOf();
         PrintWriter pw = resp.getWriter();
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         pw.println(email);
         pw.println(password);
-        User userSearchedByEmail = store.findByEmail(email);
+        User userSearchedByEmail = PsqlStore.instOf().findByEmail(email);
         if (userSearchedByEmail != null) {
             if (userSearchedByEmail.getPassword().equals(password)) {
                 HttpSession sc = req.getSession();

@@ -207,7 +207,7 @@ public class PsqlStore implements Store {
     public void saveUser(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO dreamjob.public.user_pool (email, password) VALUES (?, ?)")
+                     "INSERT INTO dreamjob.public.users (email, password) VALUES (?, ?)")
         ) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
@@ -222,13 +222,13 @@ public class PsqlStore implements Store {
         User searchedUser = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "SELECT * FROM dreamjob.public.user_pool WHERE email = (?)")) {
+                     "SELECT * FROM dreamjob.public.users WHERE email = (?)")) {
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next() && rs.getString(1).equals(email)) {
+                if (rs.next()) {
                     searchedUser = new User();
                     searchedUser.setEmail(email);
-                    searchedUser.setPassword(rs.getString(2));
+                    searchedUser.setPassword(rs.getString(3));
                 }
             }
         } catch (Exception e) {
