@@ -228,7 +228,7 @@ public class PsqlStore implements Store {
                 if (rs.next()) {
                     searchedUser = new User();
                     searchedUser.setEmail(email);
-                    searchedUser.setPassword(rs.getString(3));
+                    searchedUser.setPassword(rs.getString("password"));
                 }
             }
         } catch (Exception e) {
