@@ -18,6 +18,12 @@
             })
         }
     </script>
+    <script>
+        function addRow() {
+            const name = $('#usr').val();
+            $('#table tr:last').after('<tr><td>' + name +'</td></tr>');
+        }
+    </script>
 </head>
 <body>
 
@@ -46,7 +52,8 @@
     <button type="submit" class="btn btn-primary" onclick="return validate();">Submit</button>
 </form>
 
-<table class="table">
+<table class="table" id='table'>
+    <button type="button" class="btn btn-default" onclick="addRow()">Add row</button>
     <thead>
     <tr>
         <th scope="col">#</th>
