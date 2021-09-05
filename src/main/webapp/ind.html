@@ -20,8 +20,10 @@
     </script>
     <script>
         function addRow() {
-            const name = $('#usr').val();
-            $('#table tr:last').after('<tr><td>' + name +'</td></tr>');
+            let name = $('#1').val();
+            let surname = $('#2').val();
+            let exp = $('#3').val();
+            $('#table tr:last').after('<tr><td>' + "4" + '</td><td>' + name + '</td><td>' + surname + '</td><td>' + exp + '</td></tr>');
         }
     </script>
 </head>
@@ -42,12 +44,8 @@
         <input type="text" class="form-control" name="surname" id="2">
     </div>
     <div class="form-group">
-        <label>Пол</label>
-        <input type="text" class="form-control" name="gender" id="3">
-    </div>
-    <div class="form-group">
-        <label>Описание</label>
-        <input type="text" class="form-control" name="description">
+        <label>Опыт</label>
+        <input type="text" class="form-control" name="experience" id="3">
     </div>
     <button type="submit" class="btn btn-primary" onclick="return validate();">Submit</button>
 </form>
