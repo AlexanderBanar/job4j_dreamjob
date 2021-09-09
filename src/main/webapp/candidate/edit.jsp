@@ -21,11 +21,38 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <title>Работа мечты</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+        function validate() {
+            $('#currentForm :input').each(function () {
+                if ($(this).attr('type') === 'text' && $(this).val() === '') {
+                    alert("Please fill " + $(this).attr('name'));
+                    return false;
+                }
+            })
+        }
+        $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/dreamjob/cities',
+                dataType: 'json'
+            }).done(function (data) {
+                for (var city of data) {
+                    $('#cityList li:last').append(`<li>${city.name}</li>`)
+                }
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+    </script>
+
 </head>
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "");
+    Candidate candidate = new Candidate(0, "", 1);
     if (id != null) {
         candidate = PsqlStore.instOf().findCanById(Integer.parseInt(id));
     }
@@ -46,16 +73,22 @@
                 <% } %>
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/candidate/candidates.do?id=<%=candidate.getId()%>" method="post">
+                <form id="currentForm" action="<%=request.getContextPath()%>/candidate/candidates.do?id=<%=candidate.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <input type="text" class="form-control" name="city" value="4">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
+    <br>
+    Города:
+    <ul id="cityList">
+        <li></li>
+    </ul>
 </div>
 </body>
 </html>

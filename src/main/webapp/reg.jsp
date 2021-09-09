@@ -15,6 +15,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <title>Регистрация</title>
+
+    <script>
+        function validate() {
+            $('#currentForm :input').each(function () {
+                if ($(this).attr('type') === 'text' && $(this).val() === '') {
+                    alert("Please fill " + $(this).attr('name'));
+                    return false;
+                }
+            })
+        }
+    </script>
+
 </head>
 <body>
 <div class="container pt-3">
@@ -25,7 +37,7 @@
                 Регистрация
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/reg.do" method="post">
+                <form id="currentForm" action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
                         <label>Почта</label>
                         <input type="text" class="form-control" name="email">
@@ -34,7 +46,7 @@
                         <label>Пароль</label>
                         <input type="text" class="form-control" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();">Submit</button>
                     <c:if test="${not empty error}">
                         <div style="color:red; font-weight: bold; margin: 30px 0;">
                                 ${error}

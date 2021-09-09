@@ -74,7 +74,8 @@ public class PsqlStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
+                    candidates.add(new Candidate(it.getInt("id"), it.getString("name"),
+                            it.getInt("cityId")));
                 }
             }
         } catch (Exception e) {
@@ -155,9 +156,10 @@ public class PsqlStore implements Store {
     private Candidate createCan(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO dreamjob.public.candidate(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+                     "INSERT INTO dreamjob.public.candidate(name) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getCityId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -194,7 +196,7 @@ public class PsqlStore implements Store {
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    searchedCandidate = new Candidate(id, rs.getString(2));
+                    searchedCandidate = new Candidate(id, rs.getString(2), rs.getInt("cityId"));
                 }
             }
         } catch (Exception e) {
@@ -235,5 +237,22 @@ public class PsqlStore implements Store {
             LOG.error("check db connection", e);
         }
         return searchedUser;
+    }
+
+    @Override
+    public Collection<String> findAllCities() {
+        List<String> cities = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob.public.cities")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    cities.add(it.getString("name"));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("check db connection", e);
+        }
+        return cities;
     }
 }

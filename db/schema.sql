@@ -21,3 +21,26 @@ create table users(
                       password text
 );
 insert into users(email, password) values ('s595659@mail.ru', 'password');
+
+ALTER TABLE candidate ADD COLUMN cityId integer;
+update candidate SET cityId = 1 where id = 1;
+update candidate SET cityId = 2 where id = 2;
+update candidate SET cityId = 3 where id = 3;
+update candidate SET cityId = 4 where id = 4;
+update candidate SET cityId = 5 where id = 5;
+
+create table cities (
+                        id SERIAL PRIMARY KEY,
+                        name text UNIQUE
+);
+
+insert into cities(name) values ('Москва');
+insert into cities(name) values ('Санкт-Петербург');
+insert into cities(name) values ('Казань');
+insert into cities(name) values ('Ростов-на-Дону');
+insert into cities(name) values ('Рязань');
+insert into cities(name) values ('Нижний Новгород');
+insert into cities(name) values ('Екатеринбург');
+insert into cities(name) values ('Волгоград');
+insert into cities(name) values ('Тверь');
+insert into cities(name) values ('Уфа');

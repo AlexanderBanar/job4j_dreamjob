@@ -7,6 +7,8 @@ public interface Store {
 
     Collection<Candidate> findAllCandidates();
 
+    Collection<String> findAllCities();
+
     void savePost(Post post);
 
     void saveCan(Candidate candidate);
