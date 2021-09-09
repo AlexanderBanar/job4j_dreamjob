@@ -18,12 +18,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>AJAX</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     function sendGreeting() {
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/items/greet',
+            url: 'http://localhost:8080/dreamjob/greet',
             data: JSON.stringify({
                 name: $('#exampleInputEmail1').val()
             }),
@@ -34,13 +34,10 @@
             console.log(err);
         });
     }
-</script>
-
-<script>
     $(document).ready(function () {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/items/greet',
+            url: 'http://localhost:8080/dreamjob/greet',
             dataType: 'json'
         }).done(function (data) {
             for (var email of data) {
@@ -54,11 +51,11 @@
 
 <body>
 <div class="container">
-    <h2 id="showEmail"></h2>
     <form>
         <div class="form-group">
-            <label for="email" style="font-weight: bold">Email address</label>
-            <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                   placeholder="Enter email">
         </div>
         <button type="button" class="btn btn-primary" onclick="sendGreeting()">Submit</button>
     </form>
@@ -68,5 +65,6 @@
         <li></li>
     </ul>
 </div>
+
 </body>
 </html>
