@@ -7,7 +7,11 @@ public interface Store {
 
     Collection<Candidate> findAllCandidates();
 
-    Collection<String> findAllCities();
+    Collection<City> findAllCities();
+
+    Collection<Candidate> findTodayCandidates();
+
+    Collection<Post> findTodayPosts();
 
     void savePost(Post post);
 

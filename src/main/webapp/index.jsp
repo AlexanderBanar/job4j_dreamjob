@@ -47,7 +47,7 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Сегодняшние вакансии.
+                <a class="nav-link" href="<%=request.getContextPath()%>/todayCandidates.do">Сегодняшние кандидаты</a>
             </div>
             <div class="card-body">
             </div>
@@ -56,7 +56,7 @@
     <div class="row pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Сегодняшние кандидаты.
+                <a class="nav-link" href="<%=request.getContextPath()%>/todayPosts.do">Сегодняшние вакансии</a>
             </div>
             <div class="card-body">
             </div>

@@ -103,6 +103,22 @@
         <servlet-name>CityServlet</servlet-name>
         <url-pattern>/cities</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>TodayCandidatesServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.TodayCandidatesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TodayCandidatesServlet</servlet-name>
+        <url-pattern>/todayCandidates.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TodayPostsServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.TodayPostsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TodayPostsServlet</servlet-name>
+        <url-pattern>/todayPosts.do</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

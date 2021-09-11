@@ -190,13 +190,11 @@ public class PsqlStore implements Store {
         Candidate searchedCandidate = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "SELECT * FROM dreamjob.public.candidate WHERE id = (?)", PreparedStatement.RETURN_GENERATED_KEYS
-             )) {
+                     "SELECT * FROM dreamjob.public.candidate WHERE id = (?)")) {
             ps.setInt(1, id);
-            ps.execute();
-            try (ResultSet rs = ps.getGeneratedKeys()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    searchedCandidate = new Candidate(id, rs.getString(2), rs.getInt("cityId"));
+                    searchedCandidate = new Candidate(id, rs.getString("name"), rs.getInt("cityId"));
                 }
             }
         } catch (Exception e) {
@@ -240,19 +238,55 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public Collection<String> findAllCities() {
-        List<String> cities = new ArrayList<>();
+    public Collection<City> findAllCities() {
+        List<City> cities = new ArrayList<>();
+        int id = 1;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob.public.cities")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    cities.add(it.getString("name"));
+                    cities.add(new City(id++, it.getString("name")));
                 }
             }
         } catch (Exception e) {
             LOG.error("check db connection", e);
         }
         return cities;
+    }
+
+    public List<Candidate> findTodayCandidates() {
+        List<Candidate> candidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "select * from dreamjob.public.candidate where candidate.date > (current_timestamp - interval '24 hours')")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    candidates.add(new Candidate(it.getInt("id"), it.getString("name"),
+                            it.getInt("cityId")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("check db connection", e);
+        }
+        return candidates;
+    }
+
+    public List<Post> findTodayPosts() {
+        List<Post> posts = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "select * from dreamjob.public.post where post.date > (current_timestamp - interval '24 hours')")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    posts.add(new Post(it.getInt("id"), it.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("check db connection", e);
+        }
+        return posts;
     }
 }

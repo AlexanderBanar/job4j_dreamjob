@@ -73,7 +73,17 @@ public class MemStore implements Store {
     }
 
     @Override
-    public List<String> findAllCities() {
+    public List<City> findAllCities() {
+        return null;
+    }
+
+    @Override
+    public Collection<Candidate> findTodayCandidates() {
+        return null;
+    }
+
+    @Override
+    public Collection<Post> findTodayPosts() {
         return null;
     }
 }

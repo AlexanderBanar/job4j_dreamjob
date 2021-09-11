@@ -35,16 +35,17 @@
         }
         $(document).ready(function () {
             $.ajax({
-                type: 'GET',
-                url: 'http://localhost:8080/dreamjob/cities',
-                dataType: 'json'
-            }).done(function (data) {
-                for (var city of data) {
-                    $('#cityList li:last').append(`<li>${city.name}</li>`)
+                type: "GET",
+                url: "http://localhost:8080/dreamjob/cities",
+                dataType: "json",
+                success: function (data) {
+                    let cities = "";
+                    for (let i = 0; i < data.length; i++) {
+                        cities += "<option value=" + data[i]['id'] + ">" + data[i]['name'] + "</option>";
+                    }
+                    $('#city').html(cities);
                 }
-            }).fail(function (err) {
-                console.log(err);
-            });
+            })
         });
     </script>
 
@@ -77,18 +78,18 @@
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
-                        <input type="text" class="form-control" name="city" value="4">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="city">Город</label>
+                        <select class="form-control" id="city" name="chosenCity">
+                            <option disabled>Выберите город</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
-    <br>
-    Города:
-    <ul id="cityList">
-        <li></li>
-    </ul>
 </div>
 </body>
 </html>

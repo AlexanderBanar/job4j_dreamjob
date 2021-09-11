@@ -44,3 +44,19 @@ insert into cities(name) values ('Екатеринбург');
 insert into cities(name) values ('Волгоград');
 insert into cities(name) values ('Тверь');
 insert into cities(name) values ('Уфа');
+
+ALTER TABLE candidate ADD COLUMN date timestamp;
+update candidate SET date = '2021-09-10 20:00:00' where id = 1;
+update candidate SET date = '2021-09-10 10:00:00' where id = 2;
+update candidate SET date = '2021-09-09 20:00:00' where id = 3;
+update candidate SET date = '2021-09-09 20:00:00' where id = 4;
+update candidate SET date = '2021-09-08 20:00:00' where id = 5;
+
+ALTER TABLE candidate ADD COLUMN date timestamp;
+update candidate SET date = '2021-09-10 20:00:00' where id = 1;
+update candidate SET date = '2021-09-10 10:00:00' where id = 2;
+update candidate SET date = '2021-09-09 20:00:00' where id = 3;
+update candidate SET date = '2021-09-09 20:00:00' where id = 4;
+
+insert into candidate(name, cityId, date) values ('Richard', 6, current_timestamp);
+insert into post(name, date) values ('Java Architect', current_timestamp);
