@@ -240,13 +240,12 @@ public class PsqlStore implements Store {
     @Override
     public Collection<City> findAllCities() {
         List<City> cities = new ArrayList<>();
-        int id = 1;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM dreamjob.public.cities")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    cities.add(new City(id++, it.getString("name")));
+                    cities.add(new City(it.getInt("id"), it.getString("name")));
                 }
             }
         } catch (Exception e) {
