@@ -29,9 +29,9 @@ public class PostServletTest {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
         PowerMockito.when(req.getParameter("id")).thenReturn("0");
-        PowerMockito.when(req.getParameter("name")).thenReturn("n");
+        PowerMockito.when(req.getParameter("name")).thenReturn("Junior Java Job");
         new PostServlet().doPost(req, resp);
         Post result = store.findAllPosts().iterator().next();
-        Assert.assertThat(result.getName(), Is.is("n"));
+        Assert.assertThat(result.getName(), Is.is("Junior Java Job"));
     }
 }
